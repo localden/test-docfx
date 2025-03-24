@@ -73,3 +73,6 @@ _NCrunch_*
 nCrunchTemp_*
 
 *.orig
+
+docs/_site
+docs/api
