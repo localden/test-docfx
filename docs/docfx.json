@@ -37,10 +37,12 @@
       "modern"
     ],
     "globalMetadata": {
-      "_appName": "mcp-csharp-sdk",
-      "_appTitle": "mcp-csharp-sdk",
+      "_appName": "MCP .NET SDK",
+      "_appTitle": "MCP .NET SDK",
       "_enableSearch": true,
-      "pdf": true
+      "pdf": true,
+      "_appLogoPath": "images/mcp.svg",
+      "_appFaviconPath": "images/favicon.ico"  
     }
   }
 }

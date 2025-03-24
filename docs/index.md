@@ -2,10 +2,8 @@
 _layout: landing
 ---
 
-# This is the **HOMEPAGE**.
+# Model Context Protocol (MCP) .NET SDK
 
-Refer to [Markdown](http://daringfireball.net/projects/markdown/) for how to write markdown files.
+Welcome to the API documentation for the MCP C# SDK. [Explore the API](https://aka.ms/mcp/dotnet).
 
-## Quick Start Notes:
-
-1. Add images to the *images* folder if the file is referencing an image.
+For how-to guides, tutorials, and additional guidance, refer to the [official MCP documentation](https://modelcontextprotocol.io/).
