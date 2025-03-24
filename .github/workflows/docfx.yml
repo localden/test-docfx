@@ -35,7 +35,7 @@ jobs:
       working-directory: ./docs
 
     - name: Generate documentation
-      run: docfx docs/docfx.json
+      run: dotnet docfx docs/docfx.json
 
     - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v3
