@@ -1,8 +1,6 @@
 # MCP C# SDK
 
-[![NuGet preview version](https://img.shields.io/nuget/vpre/ModelContextProtocol.svg)](https://www.nuget.org/packages/ModelContextProtocol/absoluteLatest)
-
-The official C# SDK for the [Model Context Protocol](https://modelcontextprotocol.io/), enabling .NET applications, services, and libraries to implement and interact with MCP clients and servers.
+The official C# SDK for the [Model Context Protocol](https://modelcontextprotocol.io/), enabling .NET applications to connect to and interact with MCP clients and servers.
 
 > [!NOTE]  
 > This repo is still in preview, breaking changes can be introduced without prior notice.
@@ -19,11 +17,15 @@ For more information about MCP:
 
 ## Getting Started (Client)
 
-To get started writing a client, the `McpClientFactory.CreateAsync` method is used to instantiate and connect an `IMcpClient`
-to a server. Once you have an `IMcpClient`, you can interact with it, such as to enumerate all available tools and invoke tools.
+Then create a client and start using tools, or other capabilities, from the servers you configure:
 
 ```csharp
-var client = await McpClientFactory.CreateAsync(new()
+McpClientOptions options = new()
+{
+    ClientInfo = new() { Name = "TestClient", Version = "1.0.0" }
+};
+
+McpServerConfig config = new()
 {
     Id = "everything",
     Name = "Everything",
@@ -33,7 +35,9 @@ var client = await McpClientFactory.CreateAsync(new()
         ["command"] = "npx",
         ["arguments"] = "-y @modelcontextprotocol/server-everything",
     }
-});
+};
+
+var client = await McpClientFactory.CreateAsync(config, options);
 
 // Print the list of tools available from the server.
 await foreach (var tool in client.ListToolsAsync())
@@ -51,9 +55,15 @@ var result = await client.CallToolAsync(
 Console.WriteLine(result.Content.First(c => c.Type == "text").Text);
 ```
 
-You can find samples demonstrating how to use ModelContextProtocol with an LLM SDK in the [samples](samples) directory, and also refer to the [tests](tests/ModelContextProtocol.Tests) project for more examples. Additional examples and documentation will be added as in the near future.
+Note that you should pass CancellationToken objects suitable for your use case, to enable proper error handling, timeouts, etc. This example also does not paginate the tools list, which may be necessary for large tool sets. See the IntegrationTests project for an example of pagination, as well as examples of how to handle Prompts and Resources.
 
-Clients can connect to any MCP server, not just ones created using this library. The protocol is designed to be server-agnostic, so you can use this library to connect to any compliant server.
+It is also highly recommended that you pass a proper LoggerFactory instance to the factory constructor, to enable logging of MCP client operations.
+
+You can find samples demonstrating how to use ModelContextProtocol with an LLM SDK in the [samples](https://github.com/modelcontextprotocol/csharp-sdk/tree/main/samples) directory, and also refer to the [tests](https://github.com/modelcontextprotocol/csharp-sdk/tree/main/tests/ModelContextProtocol.Tests) project for more examples.
+
+Additional examples and documentation will be added as in the near future.
+
+Remember you can connect to any MCP server, not just ones created using ModelContextProtocol. The protocol is designed to be server-agnostic, so you can use this library to connect to any compliant server.
 
 Tools can be exposed easily as `AIFunction` instances so that they are immediately usable with `IChatClient`s.
 
@@ -168,4 +178,4 @@ await Task.Delay(Timeout.Infinite);
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](https://github.com/modelcontextprotocol/csharp-sdk/blob/main/LICENSE).
